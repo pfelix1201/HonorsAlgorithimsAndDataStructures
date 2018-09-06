@@ -9,7 +9,7 @@ public class HW1 {
 			if (i % 100 == 0 & i != 0) {
 				System.out.println();
 			}
-			System.out.print(rChar);
+			System.out.print(rChar); 
 		}
 
 	}
