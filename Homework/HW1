@@ -11,8 +11,6 @@ public class HW1 {
 			}
 			System.out.print(rChar);
 		}
-		
-		System.out.println("\n\n" + sb);
 
 	}
 
