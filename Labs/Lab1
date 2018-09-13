@@ -1,0 +1,22 @@
+public static void countLetters(String str) throws FileNotFoundException {
+		str = str.toUpperCase();
+		int ascii = 65;
+		int[] count = new int[26];
+		for (int i = 0; i < 26; i++) {
+			for (int j = 0; j < str.length(); j++) {
+				if (str.charAt(j) == ascii) count[i]++;
+			}
+			ascii++;
+		}
+		printCountLetters(count);
+	}
+	
+	public static void printCountLetters(int[] arr) throws FileNotFoundException {
+		File output = new File("output.txt");
+		PrintWriter out = new PrintWriter(output);
+		int ascii = 65;
+		for (int i = 0; i < arr.length; i++) {
+			out.println((char)(i + ascii) + ": " + arr[i]);
+		}
+		out.close();
+	}
