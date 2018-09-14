@@ -1,0 +1,11 @@
+public static void main(String[] args) throws IOException {
+		File f1 = new File("count.dat");
+		DataInputStream in = new DataInputStream(new FileInputStream(f1));
+        DataOutputStream out = new DataOutputStream(new FileOutputStream(f1));
+		int count = in.readInt();
+		count++;
+		out.writeInt(count);
+		in.close();
+		out.close();
+
+}
