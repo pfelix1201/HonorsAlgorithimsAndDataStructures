@@ -1,11 +1,22 @@
-public static void main(String[] args) throws IOException {
+public class HW4 {
+
+	public static void main(String[] args) throws IOException {
 		File f1 = new File("count.dat");
-		DataInputStream in = new DataInputStream(new FileInputStream(f1));
-        	DataOutputStream out = new DataOutputStream(new FileOutputStream(f1));
-		int count = in.readInt();
-		count++;
-		out.writeInt(count);
-		in.close();
-		out.close();
+		if (!f1.exists()) {
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(f1));
+			out.writeInt(1);
+			out.close();
+			System.out.println(1);
+		} else {
+			DataInputStream in = new DataInputStream(new FileInputStream(f1));
+			int count = in.readInt() + 1;
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(f1));
+			out.writeInt(count);
+			System.out.println(count);
+			in.close();
+			out.close();
+		}
+
+	}
 
 }
