@@ -1,0 +1,57 @@
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+
+public class HW5 extends Application {
+
+	public void start(Stage primaryStage) {
+		TextField tf = new TextField();
+		TextArea ta = new TextArea();
+		ta.setPrefHeight(350);
+		ta.setEditable(false);
+		ta.setFont(Font.font("Monospaced", 16));
+		
+		VBox vbox = new VBox(tf, ta);
+		vbox.setPadding(new Insets(10, 10, 10, 10));
+		vbox.setSpacing(10);
+		
+		Scene scene = new Scene(vbox, 755, 400);
+		
+		primaryStage.setTitle("HW5");
+		primaryStage.setScene(scene);
+		primaryStage.setResizable(false);
+		primaryStage.show();
+
+		tf.setOnAction(e -> {
+			String filename = tf.getText();
+			try {
+				RandomAccessFile raf = new RandomAccessFile(filename, "r");
+				String text = "";
+				for (int i = 1; i <= raf.length(); i++) {
+					byte b = raf.readByte();
+					int rafByte = Integer.parseInt((Integer.toBinaryString(b)));
+					text += String.format("%08d", rafByte) + " ";
+					if (i % 8 == 0) 
+						text += "\n";
+			  }
+				ta.setText(text);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+		});
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+
+}
