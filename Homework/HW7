@@ -24,12 +24,6 @@ public class BFS {
 		}
 		in.close();
 		
-		for (int[] i: maze) {
-			for (int j: i)
-				System.out.printf("%3d", j);
-			System.out.println();
-		}
-		
 		int startI = 4, startJ = 1;
 		int endI = 4, endJ = 3;
 		Queue<Integer> q = new LinkedList<>();
@@ -52,13 +46,6 @@ public class BFS {
 					q.offer(toJ);
 				}
 			}
-		}
-		
-		System.out.println("\n------------------------------");
-		for (int[] i: maze) {
-			for (int j: i)
-				System.out.printf("%3d", j);
-			System.out.println();
 		}
 		
 		q = new LinkedList<>();
