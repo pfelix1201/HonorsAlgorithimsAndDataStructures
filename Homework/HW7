@@ -9,7 +9,7 @@ xxx..x....
 .....x..x.
 x....x..x.
 
-public class BFS {
+public class HW7 {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		Scanner in = new Scanner(new File("maze.txt"));
