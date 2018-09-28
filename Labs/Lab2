@@ -1,0 +1,51 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
+public class Lab2 {
+
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		System.out.println("Enter 2 points: ");
+		String start = in.next().toUpperCase(), end = in.next().toUpperCase();
+		String point = "[A-H]\\d";
+		if (Pattern.matches(point, start) && Pattern.matches(point, start)) {
+			int startI = (start.charAt(0) - 65);
+			int startJ = 8 - (start.charAt(1) - 48);
+			int endI = (end.charAt(0) - 65);
+			int endJ = 8 - (end.charAt(1) - 48);
+			int[][] board = new int[8][8];
+			int row = 8, col = 8;
+			Queue<Integer> q = new LinkedList<>();
+			q.offer(startI);
+			q.offer(startJ);
+			int[] di = { -2, -1, 1, 2, 2, 1, -1, -2 }, dj = { -1, -2, -2, -1, 1, 2, 2, 1 };
+			boolean found = false;
+			while (!q.isEmpty() && !found) {
+				int fromI = q.poll();
+				int fromJ = q.poll();
+				for (int k = 0; k < 8 && !found; k++) {
+					int toI = fromI + di[k];
+					int toJ = fromJ + dj[k];
+					if (toI == endI && toJ == endJ)
+						found = true;
+					if (toI >= 0 && toI < row && toJ >= 0 && toJ < col && board[toI][toJ] == 0) {
+						board[toI][toJ] = board[fromI][fromJ] + 1;
+						q.offer(toI);
+						q.offer(toJ);
+					}
+				}
+			}
+			System.out.println(board[endI][endJ] + " move(s)");
+			System.out.println("\n------------------------------");
+			for (int[] i: board) {
+				for (int j: i)
+					System.out.printf("%3d", j);
+				System.out.println();
+			}
+		} else main(args);
+		
+	}
+
+}
