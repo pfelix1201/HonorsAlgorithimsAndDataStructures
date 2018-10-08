@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 
 public class HW11 extends Application{
 	Pane root = new Pane();
-	int count = 0;
 
 	public void start(Stage primaryStage) throws Exception {
 		Label lbl = new Label("Enter order: ");
@@ -50,7 +49,6 @@ public class HW11 extends Application{
 		if (order <= 0) return;
 		Line l = new Line(x - size / 2, y, x + size / 2, y);
 		root.getChildren().add(l);
-		count++;
 		vertical(x - size / 2, y, size / 2, order - 1);
 		vertical(x + size / 2, y, size / 2, order - 1);
 		
@@ -60,7 +58,6 @@ public class HW11 extends Application{
 		if (order <= 0) return;
 		Line l = new Line(x, y - size / 2, x, y + size / 2);
 		root.getChildren().add(l);
-		count++;
 		horizontal(x, y - size / 2, size / 2, order - 1);
 		horizontal(x, y + size / 2, size / 2, order - 1);
 		
