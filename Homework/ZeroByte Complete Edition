@@ -1,0 +1,77 @@
+package test;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.Arrays;
+
+public class ZeroBytesFibonacci {
+
+	public static void main(String[] args) throws Exception {
+		File folder = new File("/Users/pfelix/ZeroBytesFib/");
+		System.out.println(folder.exists() + "\n");
+		File[] listOfFiles = folder.listFiles();
+		String[] fileNames = new String[listOfFiles.length];
+
+		int k = 0;
+		for (File file : listOfFiles) {
+			if (file.isFile()) {
+				System.out.println(file.getName());
+				fileNames[k] = file.getName();
+				k++;
+			}
+		}
+
+		Arrays.sort(fileNames);
+		System.out.println("\n" + Arrays.toString(fileNames) + "\n");
+
+		for (int i = 0; i < fileNames.length; i++) {
+			fileNames[i] = noIndex(fileNames[i].replace("DOT", "."));
+			System.out.println(fileNames[i]);
+		}
+		System.out.println();
+
+		File file = new File("/Users/pfelix/eclipse-workspace/HA&DS Dillon Rangel/src/test/Fibonacci.java");
+		try (FileWriter fw = new FileWriter(file, true)) {
+			PrintWriter out = new PrintWriter(fw);
+			for (String line : fileNames)
+				out.println(line);
+			fw.close();
+			out.close();
+			runProcess("javac -cp src src/test/Fibonacci.java");
+			runProcess("java -cp src test.Fibonacci");
+		} catch (IOException e) {
+			System.out.println("failed");
+		}
+		file.delete();
+
+	}
+
+	static String noIndex(String fileName) {
+		while (Character.isDigit(fileName.charAt(0))) {
+			fileName = fileName.substring(1);
+		}
+		return fileName;
+	}
+
+	static void runProcess(String command) throws Exception {
+		Process pro = Runtime.getRuntime().exec(command);
+		printLines(command + " stdout:", pro.getInputStream());
+		printLines(command + " stderr:", pro.getErrorStream());
+		pro.waitFor();
+		System.out.println(command + " exitValue() " + pro.exitValue());
+	}
+
+	static void printLines(String name, InputStream ins) throws Exception {
+		String line = null;
+		BufferedReader in = new BufferedReader(new InputStreamReader(ins));
+		while ((line = in.readLine()) != null) {
+			System.out.println(line);
+		}
+	}
+
+}
