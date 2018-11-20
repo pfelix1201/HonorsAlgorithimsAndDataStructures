@@ -1,0 +1,61 @@
+
+public class BinaryAddition {
+
+	public static void main(String[] args) {
+		System.out.println(add(8, 5));
+		System.out.println(subtract(8, 3));
+		System.out.println(multiply(4, 3));
+		System.out.println(divide(9, 3));
+		System.out.println(modulus(9, 2));
+	}
+	
+	static int add(int x, int y) {
+		int carry = -1;
+		while (carry != 0) {
+			carry = x & y;
+			x = x ^ y;
+			y = carry << 1;
+		}
+		return x;
+	}
+	
+	static int subtract(int x, int y) {
+		y = add(~y, 1);
+		return add(x, y);
+	}
+	
+	static int multiply(int x, int y) {
+		int result = 0;
+		for (int i = 0; i < y; i = add(i, 1)) {
+			result = add(result, x);
+		}
+		return result;
+	}
+	
+	static int divide (int x, int y) {
+		if (y == 0) {
+			System.out.print("Cannot divide by ");
+			return 0;
+		}
+		int r = x;
+		int result = 0;
+		while (r >= y) {
+			r = subtract(r, y);
+			result = add(result, 1);
+		}
+		return result;
+	}
+	
+	static int modulus(int x, int y) {
+		if (y == 0) {
+			System.out.print("Cannot divide by ");
+			return 0;
+		}
+		int r = x;
+		while (r >= y) {
+			r = subtract(r, y);
+		}
+		return r;
+	}
+
+}
