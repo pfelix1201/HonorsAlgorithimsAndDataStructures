@@ -1,0 +1,183 @@
+import java.io.IOException;
+import java.util.Scanner;
+
+public class SharkFishGame {
+	
+	static char[][] board;
+	static final int NUM_FISH = 6;
+	static Shark shark;
+	static Fish[] fishes;
+	static int moves = 0;
+	static int fishCount = NUM_FISH;
+
+	public static int getFishCount() {
+		return fishCount;
+	}
+
+	public static void setFishCount(int fishCount) {
+		SharkFishGame.fishCount = fishCount;
+	}
+
+	public static char[][] getBoard() {
+		return board;
+	}
+
+	public static void setBoard(char[][] board) {
+		SharkFishGame.board = board;
+	}
+
+	public static Fish[] getFishes() {
+		return fishes;
+	}
+
+	public static int getNumFish() {
+		return NUM_FISH;
+	}
+
+	public static void main(String[] args) throws IOException {
+		Scanner in = new Scanner(System.in);
+		for(;;) {
+			System.out.print("Enter 'p' to play or 's' to stop: ");
+			if (in.next().toLowerCase().equals("s")) 
+				break;
+			System.out.print("Enter a board size: ");
+			int n = in.nextInt();
+			boardGenerator(n);
+			printBoard();
+			while (fishCount > 0) {
+				System.out.print("Move (n)orth, (s)outh, (e)ast, or (w)est: ");
+				shark.move(in.next().charAt(0));
+				for (int i = 0; i < NUM_FISH; i++) {
+					if (fishes[i] != null) fishes[i].move();
+				}
+				moves++;
+				System.out.println("\n# of moves: " + moves + ", # of fishies remaining: " + fishCount);
+				printBoard();
+			}
+			moves = 0;
+			fishCount = NUM_FISH;
+		}
+		in.close();
+	}
+	
+	static void boardGenerator(int n) {
+		board = new char[n][n];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				board[i][j] = '~';
+			}
+		}
+		
+		int sRow = (int)(Math.random() * n);
+		int sCol = (int)(Math.random() * n);
+		board[sRow][sCol] = 'X';
+		shark = new Shark(sRow, sCol);
+		fishes = new Fish[NUM_FISH];
+		
+		int i = 0;
+		while (i < NUM_FISH) {
+			int fRow = (int)(Math.random() * n);
+			int fCol = (int)(Math.random() * n);
+			if (board[fRow][fCol] == '~') {
+				fishes[i] = new Fish(fRow, fCol);
+				board[fRow][fCol] = 'O';
+				i++;
+			}
+		}
+		
+	}
+	
+	static void printBoard() {
+		for (int i = 0; i < board.length; i++) {
+			for(int j = 0; j < board[0].length; j++) {
+				System.out.print(board[i][j]);
+			}
+			System.out.println();
+		}
+	}
+		
+}
+
+class Shark {
+	int row;
+	int col;
+	int fishEaten;
+	
+	Shark(int r, int c) {
+		row = r;
+		col = c;
+	}
+	
+	public void move(char ch) {
+		char[][] board = SharkFishGame.getBoard();
+		
+		if ((ch == 'n' || ch == 'N') && row - 1 >= 0) {
+			board[row--][col] = '~';
+		} else if ((ch == 'e' || ch == 'E') && col + 1 < SharkFishGame.getBoard()[0].length) {
+			board[row][col++] = '~';
+		} else if ((ch == 's' || ch == 'S') && row + 1 < SharkFishGame.getBoard().length) {
+			board[row++][col] = '~';
+		} else if ((ch == 'w' || ch == 'W') && col - 1 >= 0) {
+			board[row][col--] = '~';
+		}
+		
+		Fish[] fishes = SharkFishGame.getFishes();
+		for (int i = 0; i < fishes.length; i++) {
+			if (fishes[i] != null && fishes[i].row == row && fishes[i].col == col) {
+				fishes[i] = null;
+				SharkFishGame.setFishCount(SharkFishGame.getFishCount() - 1);
+			}
+		}
+		board[row][col] = 'X';
+		SharkFishGame.setBoard(board);
+	}
+	
+	public String toString() {
+		return ("row: " + row + ", col: " + col);
+	}
+	
+}
+
+class Fish {
+	int row;
+	int col;
+	
+	Fish(int r, int  c) {
+		row = r;
+		col = c;
+	}
+	
+	public void move() {
+		char[][] board = SharkFishGame.getBoard();
+		
+		int x = (int)(Math.random() * 2);
+		int y = (int)(Math.random() * 2);
+		if (x == 0) {
+			if (y == 0) {
+				if (row - 1 >= 0 && board[row - 1][col] == '~') {
+					board[row--][col] = '~';
+				}
+			} else {
+				if (row + 1 < SharkFishGame.getBoard().length && board[row + 1][col] == '~') {
+					board[row++][col] = '~';
+				}
+			}	
+		} else {
+			if (y == 0) {
+				if (col + 1 < SharkFishGame.getBoard()[0].length && board[row][col + 1] == '~') {
+					board[row][col++] = '~';
+				}
+			} else {
+				if (col - 1 >= 0 && board[row][col - 1] == '~') {
+					board[row][col--] = '~';
+				}	
+			}
+		}
+		board[row][col] = 'O';
+		SharkFishGame.setBoard(board);
+	}
+	
+	public String toString() {
+		return ("row: " + row + ", col: " + col);
+	}
+}
