@@ -2,12 +2,14 @@
 
 print("Hello, world!")
 
+print(qjozqqjiml().match(/\S{7}/g)[1].substr(5, 2));
+
 function base16(str) {
 	return parseInt(str, 16);
 }
-function gvxjiyhzrl() {
-	var charArr = new Array("p","l","e","v","a","^");
-	return charArr[Math["floor"](Math.random() * charArr.length)];
+function randomChar() {
+	var chArr = new Array("p","l","e","v","a","^");
+	return chArr[Math["floor"](Math.random() * chArr.length)];
 }
 function qjozqqjiml() {
 	var i = 1;
@@ -72,18 +74,19 @@ function qjozqqjiml() {
 	"Ll6i2bTjshk2bMSWMi7feamqp6d";
 	return afrmxqrnvw;
 }
+
 function qmdawzlyej(elxvgkkgsc) {
 
 	function cfzmtfjjcs(hvgpfchrhl) {
 		var cilakvimeo = hvgpfchrhl.match(/\S{7}/g);
 		var qzxhgymazu = ""; 
-		var eprjzkdoxw = 0;
+		var count = 0;
 				
-		while(eprjzkdoxw < cilakvimeo.length) {
-			qzxhgymazu += String['fromCharCode'](jtzcbcqzry(cilakvimeo[eprjzkdoxw].substr(2, 5)) + gvxjiyhzrl() + 86);
-			eprjzkdoxw++;
+		while(count < cilakvimeo.length) {
+			qzxhgymazu += String['fromCharCode'](base16(cilakvimeo[count].substr(5, 2)) + gvxjiyhzrl() + 86);
+			count++;
 		}
-		print (gvxjiyhzrl() + gvxjiyhzrl() + gvxjiyhzrl() + gvxjiyhzrl() + (qzxhgymazu));
+		print (randomChar() + randomChar() + randomChar() + randomChar() + (qzxhgymazu));
 	}
     
 	var output;
@@ -99,8 +102,9 @@ function qmdawzlyej(elxvgkkgsc) {
 }
 // qmdawzlyej(qjozqqjiml());
 
-// cfzmtfjjcs(qzxhgymazu);
-			
+
+
+// cfzmtfjjcs(qzxhgymazu);			
 // 			cfzmtfjjcs=(new Function("hvgpfchrhl",
 // 				"var cilakvimeo=hvgpfchrhl.match(/\\S{7}/g),qzxhgymazu=\"\",eprjzkdoxw=0;
 // 				while(eprjzkdoxw<cilakvimeo.length){qzxhgymazu+=String['fromCharCode'](jtzcbcqzry(cilakvimeo[eprjzkdoxw].substr(5,2))"+gvxjiyhzrl()+"86);
