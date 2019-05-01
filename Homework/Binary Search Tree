@@ -1,0 +1,160 @@
+
+public class BinaryTree {
+
+	public static void main(String[] args) {
+		
+		Node root2 = new Node(5);
+		root2.insert(2);
+		root2.insert(-4);
+		root2.insert(3);
+		root2.insert(-3);
+		System.out.println(root2.tree());
+		root2.delete(2);
+		System.out.println(root2.tree());
+		root2.insert(12);
+		root2.insert(9);
+		root2.insert(21);
+		root2.insert(25);
+		root2.insert(19);
+		root2.insert(20);
+		System.out.println(root2.tree());
+		root2.delete(12);
+		System.out.println(root2.tree());
+	}
+
+}
+
+class Node {
+
+	int val;
+	Node rightKid;
+	Node leftKid;
+
+	public Node(int val) {
+		this.val = val;
+	}
+
+	// Excludes duplicates
+	public void insert(int value) {
+		if (val > value) {
+			if (leftKid == null) {
+				leftKid = new Node(value);
+			} else {
+				leftKid.insert(value);
+			}
+		} else if (val < value) {
+			if (rightKid == null) {
+				rightKid = new Node(value);
+			} else {
+				rightKid.insert(value);
+			}
+		}
+	}
+
+	public boolean delete(int value) {
+		if (this.rightKid != null && this.rightKid.val == value) {
+			Node n2 = this.rightKid;
+			if (n2.leftKid == null && n2.rightKid == null) {
+				this.rightKid = null;
+			} else if (n2.leftKid == null) {
+				this.rightKid = n2.rightKid;
+			} else {
+				n2 = n2.rightKid;
+				int minVal = n2.val;
+				while (n2.leftKid != null) {
+					minVal = n2.leftKid.val;
+					n2 = n2.leftKid;
+				}
+				this.rightKid.val = minVal;
+				this.rightKid.delete(minVal);
+			}
+			return true;
+		} else if (this.leftKid != null && this.leftKid.val == value) {
+			Node n2 = this.leftKid;
+			if (n2.leftKid == null && n2.rightKid == null) {
+				this.leftKid = null;
+			} else if (n2.leftKid == null) {
+				this.leftKid = n2.rightKid;
+			} else {
+				n2 = n2.rightKid;
+				int minVal = n2.val;
+				while (n2.leftKid != null) {
+					minVal = n2.leftKid.val;
+					n2 = n2.leftKid;
+				}
+				this.leftKid.val = minVal;
+				this.leftKid.delete(minVal);
+				n2 = n2.rightKid;
+			}
+			return true;
+		} else if (this.leftKid == null && this.rightKid == null) {
+			return false;
+		} else {
+			if (value < this.val) {
+				return this.leftKid.delete(value);
+			} else {
+				return this.rightKid.delete(value);
+			}
+		}		
+	}
+
+	public void minNode() {
+		
+	}
+	
+	public boolean search(Node n, int target) {
+		if (n == null) {
+			return false;
+		} else if (n.val == target) {
+			return true;
+		} else if (target < n.val) {
+			return search(n.leftKid, target);
+		} else {
+			return search(n.rightKid, target);
+		}
+	}
+
+	@Override
+	public String toString() {
+		String left, right;
+		if (leftKid != null) {
+			left = "" + leftKid.val;
+		} else {
+			left = null;
+		}
+		if (rightKid != null) {
+			right = "" + rightKid.val;
+		} else {
+			right = null;
+		}
+		return ("val: " + val + ", left: " + left + ", right: " + right);
+	}
+
+	public String tree() {
+		return tree(0);
+	}
+
+	public String tree(int x) {
+		char ch1, ch2;
+		if (x % 3 == 0) {
+			ch1 = '(';
+			ch2 = ')';
+		} else if (x % 3 == 1) {
+			ch1 = '[';
+			ch2 = ']';
+		} else {
+			ch1 = '{';
+			ch2 = '}';
+		}
+		if (leftKid == null && rightKid == null) {
+			return "" + val;
+		} else {
+			if (rightKid == null)
+				return (val + ":" + ch1 + leftKid.tree(x + 1) + ", " + rightKid + ch2);
+			else if (leftKid == null)
+				return (val + ":" + ch1 + leftKid + ", " + rightKid.tree(x + 1) + ch2);
+			else
+				return (val + ":" + ch1 + leftKid.tree(x + 1) + ", " + rightKid.tree(x + 1) + ch2);
+		}
+	}
+}
